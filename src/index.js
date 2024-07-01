@@ -1,5 +1,5 @@
 import inject from './inject/index';
-import { join, relative, dirname } from 'path';
+import { join, relative, dirname, extname } from 'path';
 import {randomBytes} from 'crypto';
 import {createFilter} from 'rollup-pluginutils';
 
@@ -108,7 +108,7 @@ export default function nodeGlobals(options) {
       }
       if (!filter(id)) return null;
       if (code.search(firstpass) === -1) return null;
-      if (id.slice(-3) !== '.js') return null;
+      if (!['.js', '.mjs'].includes(extname(id))) return null;
 
       var out = inject(code, id, mods1, mods2, sourceMap);
       return out;
